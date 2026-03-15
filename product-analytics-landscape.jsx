@@ -606,7 +606,7 @@ function SourcesView() {
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 export default function ProductAnalyticsLandscape() {
   const [activeTab, setActiveTab] = useState("quadrant");
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   const theme = isDark ? darkTheme : lightTheme;
 
