@@ -13,7 +13,7 @@ export const fontMono  = "'JetBrains Mono', 'Fira Code', monospace";
 
 // Global font scale — 1.0 = default, 1.1 = ~10% larger, 0.9 = ~10% smaller.
 // This multiplies every font size in the dashboard uniformly.
-export const fontScale = 1.0;
+export const fontScale = 1.5;
 
 
 // ── Author / Credit ────────────────────────────────────────────────────────────

@@ -37,8 +37,8 @@ const darkTheme = {
   rowAlt: "rgba(255,255,255,0.025)",
   svgGrid: "#2e2e2e",
   svgLabel: "#666",
-  tooltipBg: "#1a1a1a",
-  tooltipBorder: "#333",
+  tooltipBg: "#1e1e1e",
+  tooltipBorder: "#444",
   quadLeader: "#0D3B2E",
   quadChallenger: "#1A2A3A",
   quadVisionary: "#2A2A1A",
@@ -236,6 +236,7 @@ function QuadrantView() {
         <text x={pad.l + pW / 2} y={H - 4} textAnchor="middle" fill={theme.textMuted} fontSize={fs(11)} fontFamily={sans} fontWeight={700}>Completeness of Vision</text>
         <text x={14} y={pad.t + pH / 2} textAnchor="middle" fill={theme.textMuted} fontSize={fs(11)} fontFamily={sans} fontWeight={700} transform={`rotate(-90, 14, ${pad.t + pH / 2})`}>Ability to Execute</text>
 
+        {/* Bubbles layer — no tooltips here */}
         {filteredTools.map(t => {
           const cx = toX(t.vision);
           const cy = toY(t.execution);
@@ -251,20 +252,29 @@ function QuadrantView() {
               <text x={cx} y={cy - r - 5} textAnchor="middle" fill={theme.text} fontSize={isHovered ? fs(11) : fs(10)} fontFamily={sans} fontWeight={isHovered ? 800 : 600}>
                 {t.name}
               </text>
-              {isHovered && (
-                <g>
-                  <rect x={cx - 68} y={cy + r + 4} width={136} height={46} rx={7} fill={theme.tooltipBg} stroke={theme.tooltipBorder} strokeWidth={1} />
-                  <text x={cx} y={cy + r + 20} textAnchor="middle" fill={theme.textSub} fontSize={fs(9)} fontFamily={mono}>
-                    G2: {t.g2}/5 · ~${t.arr}M ARR
-                  </text>
-                  <text x={cx} y={cy + r + 34} textAnchor="middle" fill={theme.textFaint} fontSize={fs(9)} fontFamily={mono}>
-                    {t.reviews.toLocaleString()} reviews · {t.pricing}
-                  </text>
-                </g>
-              )}
             </g>
           );
         })}
+
+        {/* Tooltip layer — always on top */}
+        {hoveredTool && (() => {
+          const t = filteredTools.find(t => t.id === hoveredTool);
+          if (!t) return null;
+          const cx = toX(t.vision);
+          const cy = toY(t.execution);
+          const r = radius(t.arr);
+          return (
+            <g pointerEvents="none">
+              <rect x={cx - 72} y={cy + r + 4} width={144} height={46} rx={7} fill={theme.tooltipBg} stroke={theme.tooltipBorder} strokeWidth={1} />
+              <text x={cx} y={cy + r + 20} textAnchor="middle" fill={theme.textSub} fontSize={fs(9)} fontFamily={mono}>
+                G2: {t.g2}/5 · ~${t.arr}M ARR
+              </text>
+              <text x={cx} y={cy + r + 34} textAnchor="middle" fill={theme.textFaint} fontSize={fs(9)} fontFamily={mono}>
+                {t.reviews.toLocaleString()} reviews · {t.pricing}
+              </text>
+            </g>
+          );
+        })()}
       </svg>
     </div>
   );
@@ -375,7 +385,7 @@ function SatisfactionView() {
 function ConvergenceView() {
   const theme = useContext(ThemeContext);
   const W = 600, H = 340;
-  const pad = { t: 20, r: 20, b: 40, l: 50 };
+  const pad = { t: 20, r: 80, b: 40, l: 50 };
   const pW = W - pad.l - pad.r;
   const pH = H - pad.t - pad.b;
 
