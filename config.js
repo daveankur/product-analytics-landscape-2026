@@ -20,7 +20,7 @@ export const fontScale = 1.0;
 // Shown in the footer. Set url to null to render plain text (no link).
 export const author = {
   name: "BoundlessPM",
-  url:  "https://boundlesspm.com",   // set to null to disable the hyperlink
+  url:  "https://boundlesspm.substack.com/",   // set to null to disable the hyperlink
 };
 
 
